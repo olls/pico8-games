@@ -7,6 +7,8 @@ p={}
 e={}
 bs={}
 stars={}
+score=100
+goals=0
 
 function unit(x,y)
  l=sqrt(x*x+y*y)
@@ -25,7 +27,7 @@ function _init()
  e.dy=2
  e.bd={x=0,y=1}
  e.sprite=1
- 
+
  for i=1,127 do
   if rnd(10)>1 then
    speed=rnd(2)
@@ -41,16 +43,16 @@ function _init()
 end
 
 function init_o(o)
- 
+
 end
 
 function update_pys(o)
  o.x+=o.dx
  o.y+=o.dy
- 
+
  f=.8
  bf=-.9
- 
+
  o.sprite=1
  if o.x>126 then
   o.x=126
@@ -82,7 +84,7 @@ function update_pys(o)
 end
 
 function _update()
- 
+
  // update player pos
 
  if btn(0) then
@@ -99,7 +101,7 @@ function _update()
  end
 
 	// update stars
-	
+
  for s in all(stars) do
   s.x+=s.s*-p.dx
   s.y+=s.s*-p.dy
@@ -120,7 +122,7 @@ function _update()
    s.x=rnd(128)
   end
  end
- 
+
  dx=p.x-e.x
  dy=p.y-e.y
  eu=unit(dx,dy)
@@ -130,7 +132,7 @@ function _update()
   e.dx=max(-3,min(3,e.dx))
   e.dy=max(-3,min(3,e.dy))
  end
- 
+
  update_pys(p)
  update_pys(e)
 
@@ -150,10 +152,11 @@ function _update()
   else
    b.x+=b.dx
    b.y+=b.dy
-   
+
    if b.x>=p.x-4 and b.x<=p.x+4 and
       b.y>=p.y-4 and b.y<=p.y+4 then
     b.boom=true
+    score-=1
    end
   end
  end
@@ -176,7 +179,19 @@ function _draw()
  end
  spr(p.sprite,p.x-4,p.y-4)
  spr(e.sprite,e.x-4,e.y-4)
- 
+
+ gx=120
+ for g=1,goals do
+  circfill(gx,5,3,8)
+  gx-=8
+ end
+ for g=1,5-goals do
+  circfill(gx,5,3,5)
+  gx-=8
+ end
+
+ print(score)
+
  fr+=1
 end
 
